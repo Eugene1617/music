@@ -1,0 +1,437 @@
+/* =========================
+   LOADER / FETCH UI
+========================= */
+
+ .loader {
+   position: fixed;
+   inset: 0;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background: rgba(0,0,0,0.35);
+   z-index: 9999;
+   opacity: 0;
+   pointer-events: none;
+   transition: opacity 0.18s ease;
+ }
+ .loader[aria-hidden="false"] {
+   opacity: 1;
+   pointer-events: auto;
+ }
+ .loader-inner {
+   display: flex;
+   gap: 12px;
+   align-items: center;
+   padding: 18px 22px;
+   background: var(--card);
+   color: var(--text);
+   border-radius: 12px;
+   box-shadow: 0 10px 30px rgba(2,6,23,0.12);
+   transform: translateY(-6px);
+ }
+ .spinner { width: 42px; height: 42px; }
+ .spinner .path { stroke: var(--accent); stroke-linecap: round; stroke-dasharray: 90; stroke-dashoffset: 0; transform-origin: 50% 50%; animation: spin 1s linear infinite; }
+ .loader-text { font-size: 16px; font-weight: 600; }
+
+ @keyframes spin {
+   0% { transform: rotate(0deg); }
+   100% { transform: rotate(360deg); }
+ }
+
+ /* Respect dark theme */
+ body.dark .loader-inner { background: rgba(14,22,34,0.9); box-shadow: 0 10px 30px rgba(0,255,204,0.06); }
+
+.play-btn {
+  background: #111;
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s ease;
+  font-size: 18px;
+}
+
+.playing {
+  box-shadow: 0 0 20px #00ffcc;
+  transform: scale(1.1);
+}
+
+.progress {
+  width: 100%;
+  height: 6px;
+  background: #ddd;
+  border-radius: 5px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #00ffcc;
+  transition: width 0.1s linear;
+}
+/* =========================
+   ROOT THEME VARIABLES
+========================= */
+
+:root {
+  --bg: #ffffff;
+  --text: #111111;
+  --card: #f4f4f4;
+  --accent: #00c896;
+  --nav-bg: #ffffff;
+  --shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode overrides */
+body.dark {
+  --bg: #0f172a;
+  --text: #e2e8f0;
+  --card: #1e293b;
+  --accent: #00ffcc;
+  --nav-bg: #0f172a;
+  --shadow: rgba(0, 255, 204, 0.2);
+}
+
+/* =========================
+   GLOBAL RESET
+========================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-transform: capitalize;
+  transition:0.4s ease,color 0.4s ease;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+  background: var(--nav-bg);
+  padding: 20px 40px;
+  box-shadow: 0 4px 10px var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+header h1 {
+  margin-bottom: 10px;
+  font-size: 28px;
+  letter-spacing: 1px;
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 500;
+}
+
+nav a:hover {
+  color: var(--accent);
+}
+
+/* =========================
+   CUSTOM DROPDOWN
+========================= */
+
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-toggle {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.dropdown-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 200, 150, 0.3);
+}
+
+.dropdown-toggle i {
+  font-size: 12px;
+  transition: transform 0.3s ease;
+}
+
+.custom-dropdown.active .dropdown-toggle i {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--card);
+  border: 1px solid var(--shadow);
+  border-radius: 8px;
+  box-shadow: 0 8px 20px var(--shadow);
+  min-width: 160px;
+  z-index: 1000;
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+  margin-top: 8px;
+}
+
+.custom-dropdown.active .dropdown-menu {
+  display: flex;
+}
+
+.dropdown-item {
+  background: transparent;
+  border: none;
+  padding: 12px 16px;
+  text-align: left;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 14px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.dropdown-item:hover {
+  background: var(--accent);
+  color: white;
+}
+
+.dropdown-item.selected {
+  background: var(--accent);
+  color: white;
+}
+
+select {
+  padding: 5px;
+  border-radius: 5px;
+}
+
+/* =========================
+   SEARCH BAR
+========================= */
+
+.search {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.search input {
+  flex: 1;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.search button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+}
+
+.search button:hover {
+  opacity: 0.9;
+}
+
+/* =========================
+   MAIN SECTION
+========================= */
+
+#main_body {
+  padding: 40px;
+  display: grid;
+  gap: 20px;
+}
+
+/* =========================
+   ARTIST CARD
+========================= */
+
+#main_body > div {
+  background: var(--card);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px var(--shadow);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+#main_body > div:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px var(--shadow);
+}
+
+.play-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 18px;
+}
+#ff{
+  color:blue;
+  font-family: monospace;
+  font-size: 16px;
+  margin: 5px;
+  gap: 10px;
+  line-height: 10px;
+  padding: 1px;
+  background: #ccc ;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  border-radius: 16px;
+  border: 3px solid #00c896;
+  text-decoration: none;
+}
+.play-btn:hover {
+  transform: scale(1.1);
+}
+.download-btn {
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 500;
+  background: var(--accent);
+  padding: 8px 12px;
+  border-radius: 5px;
+  display: inline-block;
+  margin-top: 10px;
+
+}
+.download-btn:hover {
+  background: var(--accent);
+  color: white;
+  transform: scale(1.05);
+} 
+.change::before {
+  color: var(--accent);
+  content: "dancehall";
+  font-weight: bold;
+  animation: changeText 10s linear infinite;
+}
+@keyframes changeText {
+  0% { content: "dancehall"; }
+  25% { content: "hip hop"; }
+  50% { content: "gospel"; }
+  75% { content: "afropop"; }
+  100% { content: "soul"; }
+}
+/* =========================
+   THEME TOGGLE BUTTON
+========================= */
+
+.theme-toggle {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 10px 20px var(--shadow);
+  font-size: 18px;
+}
+.artist-img {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  box-shadow: rgb(139, 110, 110) 2px 3px 3px 5px;
+  border-radius: 20px;
+}
+
+
+/* =========================
+   RESPONSIVE / MOBILE
+========================= */
+
+@media (max-width: 900px) {
+  header { padding: 16px 24px; }
+  header h1 { font-size: 24px; }
+
+  nav ul { flex-wrap: wrap; gap: 12px; }
+  nav a { font-size: 15px; }
+
+  .search { flex-direction: column; gap: 8px; }
+  .search input { padding: 10px; }
+  .search button { padding: 8px 10px; align-self: flex-end; }
+
+  #main_body { padding: 24px; grid-template-columns: 1fr; }
+  #main_body > div { padding: 16px; }
+
+  .artist-img { width: 100%; height: auto; max-width: 320px; margin: 0 auto; }
+
+  .play-btn, .download-btn, #download-btn { padding: 10px; font-size: 16px; }
+  .progress { height: 5px; }
+
+  .theme-toggle { right: 16px; bottom: 16px; padding: 12px; font-size: 16px; }
+
+  .description { max-width: 100%; padding: 12px 14px; }
+  .description::before { left: 10px; }
+}
+
+@media (max-width: 600px) {
+  header { padding: 12px 16px; }
+  header h1 { font-size: 20px; }
+
+  nav ul { flex-direction: column; align-items: flex-start; gap: 8px; }
+  nav a { font-size: 14px; }
+
+  .search { gap: 8px; }
+  .search input { width: 100%; }
+  .search button { width: auto; }
+
+  #main_body { padding: 16px; gap: 16px; }
+  #main_body > div { padding: 12px; border-radius: 10px; }
+
+  .artist-img { width: 100%; height: auto; border-radius: 12px; }
+
+  .play-btn, .download-btn, #download-btn { padding: 8px 12px; font-size: 15px; border-radius: 8px; }
+  .progress { height: 4px; }
+
+  .theme-toggle { right: 12px; bottom: 12px; padding: 10px; font-size: 15px; }
+
+  h1 { font-size: 24px; white-space: normal; border-right: none; animation: none; }
+
+  .description { padding: 10px; }
+  .description::before { left: 8px; top: 8px; bottom: 8px; width: 3px; }
+}

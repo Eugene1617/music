@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="description" content="Malawi music website" />
+    <meta
+      name="keywords"
+      content="Malawi music, Eugene Kayange, Malawi artists, Malawi songs"
+    />
+    <meta name="author" content="Eugene Kayange" />
+<link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <title>Malawi Music</title>
+  </head>
+  <body>
+    <!-- Loader overlay shown during API fetches -->
+    <div id="loader" class="loader" aria-hidden="true">
+      <div class="loader-inner">
+        <svg class="spinner" viewBox="0 0 50 50" aria-hidden="true">
+          <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="4"></circle>
+        </svg>
+        <p class="loader-text">Loading…</p>
+      </div>
+    </div>
+    <header>
+      <h1 id="head">Welcome to Malawi Music, home of <span class="change"></span></h1>
+       
+      
+      <button class="theme-toggle" onclick="toggleTheme()">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      <nav>
+    <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+    <span>filter by:</span>
+    <div class="filter-container">
+        <div class="custom-dropdown">
+            <button class="dropdown-toggle">
+                <span class="dropdown-label">All</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            
+            <div class="dropdown-menu">
+                <button class="dropdown-item" data-value="all">All</button>
+                <button class="dropdown-item" data-value="dancehall">Dancehall</button>
+                <button class="dropdown-item" data-value="hiphop">Hiphop</button>
+                <button class="dropdown-item" data-value="gospel">Gospel</button>
+                <button class="dropdown-item" data-value="afropop">Afropop</button>
+                <button class="dropdown-item" data-value="r&b">R&B</button>
+                <button class="dropdown-item" data-value="reggae">Reggae</button>
+                <button class="dropdown-item" data-value="soul">Soul</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+      <section class="search">
+        <input type="text" id="search_input" placeholder="Search for artists, songs, albums..." />
+        <button  onclick="search_()">
+          <i class="fa-solid fa-magnifying-glass"></i>
+         </button>
+      </section>
+    </header>
+    <main>
+       Discover the vibrant music scene of Malawi. Explore artists, songs,
+        albums, and playlists across various genres. Stay updated with the
+        latest releases and connect with fellow music lovers.
+    </main>
+    <section id="main_body">
+      
+    </section>
+<footer id="main_body contact">
+  <div>
+  <p><a id="ff" href="">Contact:+265 985522820</a></p>
+  <p><a id="ff" href="#">Facebook</a></p>
+  <P><a  id="ff" href="https://www.linkedin.com/in/eugene-kayange-b4002834a/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BdbLAo%2BnjR42BzaImItubIg%3D%3D">Linkedin</a></P>
+  <p><a id="ff" href="mailto:eutechcompanies@gmail.com">email:eutechcompanies@gmail.com</a></p>
+  
+
+</div>
+</footer>
+    <script src="main.js"></script>
+   
+  </body>
+</html>
